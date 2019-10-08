@@ -2,6 +2,8 @@
 
 # Heracles: Pleo's Test Engineer Challenge - Pablo's Work
 
+[![CircleCI](https://circleci.com/gh/pjcalvo/heracles/tree/master.svg?style=svg)](https://circleci.com/gh/pjcalvo/heracles/tree/master)
+
 This is what i did:
 * First I added a backend small project using Python Flask.
 * I added CI support with CircleCI in order to run the tests

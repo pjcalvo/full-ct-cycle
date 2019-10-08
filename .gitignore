@@ -1,6 +1,7 @@
 # ignore python stuff 
 env/
 /**/__pycache__
+pytest-report/
 
 # ignore IDE dumb files
 .vscode

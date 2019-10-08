@@ -30,6 +30,6 @@ class MoneyTest(unittest.TestCase):
         self.assertEqual(money.formatMoney(test_random),"")
 
    def test_format_with_boundaries(self):
-        tests = [(-1123.222,"1123.22"),(-1,"-1.00"),(0,"0.00"),(99999.99999,"99 999.99")]
+        tests = [(-1123.222,"-1 123.22"),(-1,"-1.00"),(0,"0.00"),(99999.99999,"100 000.00")]
         for test, expected in tests:
              self.assertEqual(money.formatMoney(test),expected)
