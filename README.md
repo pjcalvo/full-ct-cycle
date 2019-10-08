@@ -1,6 +1,6 @@
 <img src="https://upload.wikimedia.org/wikipedia/commons/4/48/Twelve_Labours_Altemps_Inv8642.jpg" height="300px"/>
 
-# Heracles: Pleo's Test Engineer Challenge
+# Heracles: Pleo's Test Engineer Challenge - Solution
 
 We're really happy that you're considering to join us! Here's a challenge that will help us understand your skills and serve as a starting discussion point for the interview.
 

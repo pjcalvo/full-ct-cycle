@@ -1,0 +1,6 @@
+# ignore python stuff 
+env/
+/**/__pycache__
+
+# ignore IDE dumb files
+.vscode
