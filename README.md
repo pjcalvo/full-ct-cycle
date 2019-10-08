@@ -1,10 +1,12 @@
 <img src="https://upload.wikimedia.org/wikipedia/commons/4/48/Twelve_Labours_Altemps_Inv8642.jpg" height="300px"/>
 
-# Heracles: Pleo's Test Engineer Challenge - Solution
+# Heracles: Pleo's Test Engineer Challenge - Pablo's Work
 
-We're really happy that you're considering to join us! Here's a challenge that will help us understand your skills and serve as a starting discussion point for the interview.
-
-We're not expecting that everything will be done perfectly as we value your time. You're encouraged to point out possible improvements in your solution and we will dicuss them during the interview.
+This is what i did:
+* First I added a backend small project using Python Flask.
+* I added CI support with CircleCI in order to run the tests
+* I added some unit tests for the "core" functionality which actually make find a problem with negatives
+* I will fix the code ... 
 
 ## The challenge: Money Formatting
 
