@@ -17,7 +17,10 @@ jobs:
       - run:
           name: Test
           command: |
+            . venv/bin/activate
             pytest --html=pytest-report/report.html
+          paths:
+            - "venv"
       - store_artifacts:
           path: pytest-report/
           destination: tr1
