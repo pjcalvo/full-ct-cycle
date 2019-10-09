@@ -71,4 +71,5 @@ workflows:
     jobs:
       - build
       - ui-test
-        requires: build
+          requires:
+            - build
