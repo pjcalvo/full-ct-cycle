@@ -7,7 +7,7 @@ var MoneyPage = Object.create(Page, {
     txtMoney:   {get: function() {return $('#money'); }},
 
     open: {value: function() {
-        Page.open.call(this, '/money');
+        Page.open.call(this, '/');
     }},
 
     isOnPage: {value: function() {

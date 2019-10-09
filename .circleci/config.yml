@@ -15,6 +15,22 @@ jobs:
             . venv/bin/activate
             pip install -r requirements.txt
       - run:
+          name: "Prepare Node Env for UI tests"
+          command: |
+            curl -sSL "https://nodejs.org/dist/v11.10.0/node-v11.10.0-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v11.10.0-linux-x64/bin/node
+            curl https://www.npmjs.com/install.sh | sudo bash
+            npm i --save-dev @wdio/cli
+            npm install
+      - run:
+          name: Download Selenium
+          command: |
+            curl -O http://selenium-release.storage.googleapis.com/3.5/selenium-server-standalone-3.5.3.jar
+      - run:
+          name: Start Selenium
+          command: |
+            java -jar selenium-server-standalone-3.5.3.jar
+          background: true
+      - run:
           name: Run Unit Tests
           command: |
             . venv/bin/activate
@@ -43,22 +59,6 @@ jobs:
           command: |
             . venv/bin/activate
             behave src/api/features/
-      - run:
-          name: "Prepare Node Env for UI tests"
-          command: |
-            curl -sSL "https://nodejs.org/dist/v11.10.0/node-v11.10.0-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v11.10.0-linux-x64/bin/node
-            curl https://www.npmjs.com/install.sh | sudo bash
-            npm i --save-dev @wdio/cli
-            npm install
-      - run:
-          name: Download Selenium
-          command: |
-            curl -O http://selenium-release.storage.googleapis.com/3.5/selenium-server-standalone-3.5.3.jar
-      - run:
-          name: Start Selenium
-          command: |
-            java -jar selenium-server-standalone-3.5.3.jar
-          background: true
       - run:
           name: Run Acceptance UI Testse
           command: npm run test
