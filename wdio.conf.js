@@ -1,6 +1,6 @@
 exports.config = {
-    runner: 'local',
-    path: '/',
+    //runner: 'local',
+    // path: '/',
     specs: [
         'src/e2e/specs/*.spec.js'
     ],
@@ -11,11 +11,6 @@ exports.config = {
     capabilities: [{
         maxInstances: 5,
         browserName: 'chrome',
-        'goog:chromeOptions': {
-        // to run chrome headless the following flags are required
-        // (see https://developers.google.com/web/updates/2017/04/headless-chrome)
-        args: ['--headless', '--disable-gpu'],
-        }
     }],
     logLevel: 'info',
     bail: 0,
@@ -23,6 +18,7 @@ exports.config = {
     waitforTimeout: 10000,
     connectionRetryTimeout: 90000,
     connectionRetryCount: 3,
+    services: ['selenium-standalone'],
     framework: 'mocha',
     reporters: ['spec'],
  
