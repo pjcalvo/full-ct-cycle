@@ -3,10 +3,9 @@ jobs:
   build:
     working_directory: ~/heracles
     docker:
-      - image: circleci/python:3.6.3-jessie-node-browserss
+      - image: circleci/python:3.6.3-jessie-node-browsers
         environment:
           FLASK_CONFIG: testing
-      - image: circleci/ruby:2.4.2-jessie-node
     steps:
       - checkout
       - run:
