@@ -28,7 +28,6 @@ jobs:
           environment:
             FLASK_APP: api/app.py
             FLASK_RUN_PORT: 5000
-            - run:
       - run: 
           name: Spin up web application
           command: |
