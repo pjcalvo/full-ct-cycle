@@ -27,7 +27,7 @@ jobs:
             . venv/bin/activate
             flask run
           background: true
-      - run: sleep 5
+      - run: sleep 3
       - run:
           name: Run Api Acceptance tests
           command: |
