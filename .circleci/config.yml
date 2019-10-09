@@ -6,8 +6,6 @@ jobs:
       - image: circleci/python:3.6.2-stretch-browsers
         environment:
           FLASK_CONFIG: testing
-          FLASK_APP: api/app.py
-          FLASK_RUN_PORT: 8050 
     steps:
       - checkout
       - run:
@@ -22,11 +20,24 @@ jobs:
             . venv/bin/activate
             pytest --html=pytest-report/report.html
       - run:
-          name: Spin up the application
+          name: Spin up api application
           command: |
             . venv/bin/activate
             flask run
           background: true
+          environment:
+            FLASK_APP: api/app.py
+            FLASK_RUN_PORT: 5000
+            - run:
+      - run: 
+          name: Spin up web application
+          command: |
+            . venv/bin/activate
+            flask run
+          background: true
+          environment:
+            FLASK_APP: web/app.py
+            FLASK_RUN_PORT: 50001  
       - run: sleep 3
       - run:
           name: Run Api Acceptance tests
