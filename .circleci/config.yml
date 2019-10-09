@@ -50,7 +50,7 @@ jobs:
             curl https://www.npmjs.com/install.sh | sudo bash
       - run:
           name: Run Acceptance UI Testse
-          command: npm run tests
+          command: npm run test
       - store_artifacts:
           path: pytest-report/
           destination: tr1
