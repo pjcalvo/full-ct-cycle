@@ -52,7 +52,7 @@ jobs:
           background: true
           environment:
             FLASK_APP: src/web/app.py
-            FLASK_RUN_PORT: 50001  
+            FLASK_RUN_PORT: 5001
       - run: sleep 3
       - run:
           name: Run Api Acceptance tests
