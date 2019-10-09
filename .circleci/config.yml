@@ -26,6 +26,12 @@ jobs:
           command: |
             . venv/bin/activate
             flask run
+          background: true
+      - run:
+          name: Run Api Acceptance tests
+          command: |
+            . venv/bin/activate
+            behave api/features/
       - store_artifacts:
           path: pytest-report/
           destination: tr1
