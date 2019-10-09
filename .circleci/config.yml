@@ -44,10 +44,11 @@ jobs:
             . venv/bin/activate
             behave src/api/features/
       - run:
-          name: "Prepare Node for UI tests"
+          name: "Prepare Node Env for UI tests"
           command: |
             curl -sSL "https://nodejs.org/dist/v11.10.0/node-v11.10.0-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v11.10.0-linux-x64/bin/node
             curl https://www.npmjs.com/install.sh | sudo bash
+            npm i --save-dev @wdio/cli
       - run:
           name: Run Acceptance UI Testse
           command: npm run test
