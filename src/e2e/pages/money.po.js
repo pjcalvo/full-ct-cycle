@@ -3,8 +3,10 @@ var Page = require('./page')
 
 var MoneyPage = Object.create(Page, {
 
-    form:       {get: function() {return $('form'); }},
-    txtMoney:   {get: function() {return $('#money'); }},
+    form:       {get: function() {return $('form')}},
+    txtMoney:   {get: function() {return $('#money')}},
+    pResult:    {get: function() {return $('#result')}},
+    btnSubmit:  {get: function() {return $('#submit')}},
 
     open: {value: function() {
         Page.open.call(this, '/');
@@ -14,8 +16,21 @@ var MoneyPage = Object.create(Page, {
         return this.form.isDisplayedInViewport()
     }},
 
+    setMoney: {value: function(value) {
+        this.txtMoney.keys(value)
+    }},
+
+    clearMoney: {value: function() {
+        this.txtMoney.elementClear()
+    }},
+
+    getValue: {value: function(){
+        console.log("ASDD" +   this.pResult.getText());
+        return this.pResult.getText()
+    }},
+
     submit: {value: function() {
-        this.form.click();
+        this.btnSubmit.click()
     }},
 });
 

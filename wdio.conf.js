@@ -20,7 +20,10 @@ exports.config = {
     connectionRetryCount: 3,
     // services: ['selenium-standalone'],
     framework: 'mocha',
-    reporters: ['spec'],
+    reporters: ['spec',
+        ['mochawesome',{
+        outputDir: './Results'
+    }]],
  
     mochaOpts: {
         ui: 'bdd',
