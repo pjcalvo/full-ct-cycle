@@ -8,3 +8,4 @@ pytest-report/
 
 # ignore logging
 *.log
+node_modules

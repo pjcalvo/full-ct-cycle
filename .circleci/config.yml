@@ -26,7 +26,7 @@ jobs:
             flask run
           background: true
           environment:
-            FLASK_APP: api/app.py
+            FLASK_APP: src/api/app.py
             FLASK_RUN_PORT: 5000
       - run: 
           name: Spin up web application
@@ -35,7 +35,7 @@ jobs:
             flask run
           background: true
           environment:
-            FLASK_APP: web/app.py
+            FLASK_APP: src/web/app.py
             FLASK_RUN_PORT: 50001  
       - run: sleep 3
       - run:
