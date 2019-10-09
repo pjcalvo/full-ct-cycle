@@ -1,4 +1,6 @@
+behave-py3==1.2.5.post2014122202
 Flask==1.1.1
 Flask-RESTful==0.3.7
 pytest==5.2.1
 pytest-html==2.0.0
+requests==2.22.0
