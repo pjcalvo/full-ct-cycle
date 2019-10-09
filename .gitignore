@@ -5,3 +5,6 @@ pytest-report/
 
 # ignore IDE dumb files
 .vscode
+
+# ignore logging
+*.log
