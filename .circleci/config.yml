@@ -42,14 +42,14 @@ jobs:
           name: Run Api Acceptance tests
           command: |
             . venv/bin/activate
-            behave api/features/
+            behave src/api/features/
       - run:
           name: "Prepare Node for UI tests"
           command: |
             curl -sSL "https://nodejs.org/dist/v11.10.0/node-v11.10.0-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v11.10.0-linux-x64/bin/node
             curl https://www.npmjs.com/install.sh | sudo bash
       - run:
-          name: Run Acceptance UI Tests
+          name: Run Acceptance UI Testse
           command: npm run tests
       - store_artifacts:
           path: pytest-report/
