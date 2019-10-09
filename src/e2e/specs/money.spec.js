@@ -19,6 +19,14 @@ describe('when the money formatter UI is working as expected', function() {
         expect(browser.getTitle()).to.be.equals('Money Formatter')
     });
 
+    it('should not allow empty values', function() {
+        // submit
+        MoneyPage.submit()
+
+        // assert
+        expect(MoneyPage.getValue()).to.be.equals("")
+    });
+
     it('should round to 2 decimals', function() {
         // enter valid data
         MoneyPage.setMoney("345.232")

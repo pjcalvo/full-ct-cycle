@@ -25,7 +25,6 @@ var MoneyPage = Object.create(Page, {
     }},
 
     getValue: {value: function(){
-        console.log("ASDD" +   this.pResult.getText());
         return this.pResult.getText()
     }},
 
