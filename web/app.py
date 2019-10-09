@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request
 import requests
-from dynaconf import settings as _settings
 
 app = Flask(__name__)
 api_url = "http://localhost:5000"
