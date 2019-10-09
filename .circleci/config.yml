@@ -1,11 +1,27 @@
 version: 2
 jobs:
+  ui-test:
+    working_directory: ~/heracles
+    docker:
+      - image: circleci/ruby:2.4.2-jessie-node
+    steps:
+      - checkout
+      - run:
+          name: "Update Node.js and npm"
+          command: |
+            curl -sSL "https://nodejs.org/dist/v11.10.0/node-v11.10.0-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v11.10.0-linux-x64/bin/node
+            curl https://www.npmjs.com/install.sh | sudo bash
+            curl http://localhost:5001
+      - run:
+          name: Check current version of node
+          command: node -v
   build:
     working_directory: ~/heracles
     docker:
       - image: circleci/python:3.6.2-stretch-browsers
         environment:
           FLASK_CONFIG: testing
+      - image: circleci/ruby:2.4.2-jessie-node
     steps:
       - checkout
       - run:
@@ -47,6 +63,13 @@ jobs:
           path: pytest-report/
           destination: tr1
       - store_test_results:
-          path: pytest-report/
-      
-             
+          path: pytest-report/     
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - ui-test
+        requires:
+            - build
