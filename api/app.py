@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, abort
 from flask_restful import Resource, Api
 from core import money
 
@@ -6,22 +6,21 @@ app = Flask(__name__)
 api = Api(app)
 
 class MoneyApi(Resource):
-    def get(self):
-        # get the params
-        try: 
-            args = request.args
-            value = args['value'] 
-        except:
-             return {'error': "expected param 'value' is not sent"},400          
-        # validate the request
+    def get(self):            
+        value = request.args.get('value', 1, type=float)     
         validatedparam = money.formatMoney(value)
         if validatedparam == "":
+            abort(400) 
             return {'error': 'server error, not able to parse the value'},400
         # return the parsed Value
         return {'parsedValue': validatedparam},201
 
+class Main(Resource):
+    def get(self):
+        return {'status': 'site is up and running'},201
 
 api.add_resource(MoneyApi, '/money')
+api.add_resource(Main, '/')
 
 if __name__ == '__main__':
     app.run(debug=True)

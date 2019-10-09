@@ -6,6 +6,8 @@ jobs:
       - image: circleci/python:3.6.2-stretch-browsers
         environment:
           FLASK_CONFIG: testing
+          FLASK_APP: api/app.py
+          FLASK_RUN_PORT: 8050 
     steps:
       - checkout
       - run:
@@ -15,15 +17,19 @@ jobs:
             . venv/bin/activate
             pip install -r requirements.txt
       - run:
-          name: Test
+          name: Run Unit Tests
           command: |
             . venv/bin/activate
             pytest --html=pytest-report/report.html
-          paths:
-            - "venv"
+      - run:
+          name: Spin up the application
+          command: |
+            . venv/bin/activate
+            flask run
       - store_artifacts:
           path: pytest-report/
           destination: tr1
       - store_test_results:
           path: pytest-report/
+      
              
