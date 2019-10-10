@@ -62,8 +62,8 @@ Once we have the environment ready we need to install the project dependecies:
 `npm install`
 
 **Selenium** will be the webdriver to connect to the browser and execute UI tests:
-* *Recommended*: Uncomment this line `// services: ['selenium-standalone'],` on the `wdio.conf.js` file. This will make selenium start for you seemlesly.
-* If you want to download and spin selenium on your own do `sh selenium.sh`. It is a small script that downloads and spins selenium.
+* *Recommended*: Check this line `services: ['selenium-standalone'],` on the `wdio.conf.js` file. This will make selenium start for you seemlesly.
+* If you want you can start selenium on your own and download the corresponding browserDrivers or use a remote selenium grid,
 
 ## Running the project
 I decided to split the frontend and backend in two separate projects to have a more real life context of isolation between these two.
@@ -117,8 +117,7 @@ In this case I decided to use [WebdriverIO](https://webdriver.io/) because it is
 
 To run the acceptance tests we need a working api and a working frontend, so:
 * In a terminal: Move to the virtual env: `. venv/bin/activate` then spin up the backend `FLASK_APP=src/api/app.py flask run`
-* In a second terminal: Move to the virtual env: `. venv/bin/activate` then spin up the backend `FLASK_RUN_PORT=5001 FLASK_APP=src/api/app.py flask run`
-* Make sure selenium is running (see section above)
+* In a second terminal: Move to the virtual env: `. venv/bin/activate` then spin up the backend `FLASK_RUN_PORT=5001 FLASK_APP=src/web/app.py flask run`
 * In a third terminal (no more virtual env): Just run `npm run test`
 
 That is it for the testing.

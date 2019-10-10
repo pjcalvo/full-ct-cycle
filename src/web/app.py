@@ -12,13 +12,14 @@ def index():
         # try to format the money value
         try:
             value = request.form['money']
+            float(value)
             r = requests.get(f"{api_url}/money?value={value}")
             results = r.json().get('parsedValue')
             print(results)
+        except ValueError:
+            errors.append("Unable to process the request. Please make sure the number is valid.")
         except:
-            errors.append(
-                "Unable to get . Please make sure it's valid and try again."
-            )
+            errors.append("Unable to process the request. Please try again later.")
     return render_template('index.html', errors=errors, results=results)
 
 if __name__ == '__main__':

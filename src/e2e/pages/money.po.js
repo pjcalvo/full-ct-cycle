@@ -6,6 +6,7 @@ var MoneyPage = Object.create(Page, {
     form:       {get: function() {return $('form')}},
     txtMoney:   {get: function() {return $('#money')}},
     pResult:    {get: function() {return $('#result')}},
+    pError:     {get: function() {return $('#error-message')}},
     btnSubmit:  {get: function() {return $('#submit')}},
 
     open: {value: function() {
@@ -26,6 +27,10 @@ var MoneyPage = Object.create(Page, {
 
     getValue: {value: function(){
         return this.pResult.getText()
+    }},
+
+    getError: {value: function(){
+        return this.pError.getText()
     }},
 
     submit: {value: function() {

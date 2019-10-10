@@ -40,7 +40,6 @@ describe('when the money formatter UI is working as expected', function() {
         // enter valid data
         MoneyPage.setMoney("1113145.23")
         MoneyPage.submit()
-        browser.pause(2000)
 
         // assert
         expect(MoneyPage.getValue()).to.be.equals("1 113 145.23")
@@ -53,6 +52,15 @@ describe('when the money formatter UI is working as expected', function() {
 
         // assert
         expect(MoneyPage.getValue()).to.be.equals("-20.23")
+    });
+
+    it('should show an error message on invalid float parsing', function() {
+        // enter valid data
+        MoneyPage.setMoney("asdasda.21")
+        MoneyPage.submit()
+
+        // assert
+        expect(MoneyPage.getError()).to.be.equals("Unable to process the request. Please make sure the number is valid.")
     });
     
 });
