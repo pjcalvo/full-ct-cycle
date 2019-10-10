@@ -1,7 +1,10 @@
+import logging
 import unittest
 import random
 import string
 from core import money
+
+logging.basicConfig(filename='logging.log',level=logging.DEBUG)
 
 class TestHelper():
    def randomString(self, stringLength=10):
@@ -33,3 +36,12 @@ class MoneyTest(unittest.TestCase):
         tests = [(-1123.222,"-1 123.22"),(-1,"-1.00"),(0,"0.00"),(99999.99999,"100 000.00")]
         for test, expected in tests:
              self.assertEqual(money.formatMoney(test),expected)
+
+   def test_format_with_big_list_of_nasty_strings(self):
+        file = "src/api/resources/blns.txt"
+        with open(file,'r') as r:
+             for ln in r: 
+               test_value = ln.strip()
+               result = money.formatMoney(test_value)
+               print(f"Tested value: {test_value}. Result: {result}")
+               self.assertEqual(type(result),str)

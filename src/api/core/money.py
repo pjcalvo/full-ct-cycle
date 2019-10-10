@@ -10,6 +10,6 @@ def formatMoney(value_to_parse):
         except ValueError:
             print(f"could not convert to float: '{value_to_parse}'")
             return ""
-        # except:
-        #     print(f"unexpected error: '{value_to_parse}'")
-        #     return ""
+        except:
+            print(f"unexpected error: '{value_to_parse}'")
+            return ""

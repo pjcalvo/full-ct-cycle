@@ -24,6 +24,8 @@ I tried to make each piece of the system as defensive as possible to avoid miss-
 * I added NodeJS to support webdriverIO to use for the e2e tests.
 * I ammended everything on the README file.
 
+I used this setup so the project is easy to run and test and not a lot of dependecies are involved
+
 ###### Tech Stack
 * Python3
 * NodeJS
@@ -97,6 +99,8 @@ As this function was created on the backend the tests are also part of this proj
 * To execute the tests simple run `pytest` which will find all the pytest methods under the folder and run them.
 * Also you can use the `pytest --html=pytest-report/report.html` if you want a nice html report
 
+Note: I added a test that handles the big list of nasty strings input and check that the result is a *type(str)* which means that it doesn't broke
+
 ###### Integration Testing
 You can call these guys *integration testing* or *api acceptance testing*, or whatever seems right on the context, they are meant to test the behavior of the API given a set of specified requests. 
 I feel like this guys should belong to the specific api that they are testing, in a microservice approach this will provide testability in isolation so I added the tests under *src/api/core/features/
@@ -162,5 +166,8 @@ Also, I used flask for the frontend, but I think using a javscript framework for
 * Better reporting and logging tools for the tests, right now it is mostly console reports, but this does not provide an easy way to debug or trobleshoot in case of errors. Including attached screenshots and logs to the execution.
 * The e2e tests include a very repetitive process of enter value, submit and check result, this can be summarized on a *flows* library.
 
+
+NOTES:
+* Pytest-html failed to work on a different machine (don't want to invest more time with this at the moment)
 
 Happy reviewwing! 🚀
