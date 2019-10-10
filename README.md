@@ -14,17 +14,19 @@ formatMoney(1600); // '1 600.00'
 ```
 
 ## My approach:
-I tried to make each piece of the system as defensive as possible to avoid miss-behavios, this means that even if the backend is able to handle "special" scenarios the frontend will never send them because it is also validated.
+I tried to make each piece of the system as defensive as possible to avoid miss-behavios, this means that even if the backend is able to handle "special" scenarios the frontend should never send them because it is also validated at this level.
 * First I added a backend small project using Python Flask.
 * I added CI support with CircleCI in order to run the tests
 * I added some unit tests for the "core" functionality which actually make find a problem with negatives
 * I fixed the backend problems 
-* Added the API tests to add coeverage at an api acceptance level
+* I added the API tests to add coverage at an api acceptance level
 * I added a small FrontEnd project using Python Flask as well.
 * I added NodeJS to support webdriverIO to use for the e2e tests.
-* I ammended everything on the README file.
+* I amended everything on the README file.
 
-I used this setup so the project is easy to run and test and not a lot of dependecies are involved
+In terms of time: I think I invested around 8-12 effective hours in total.
+
+I used this setup so the project is easy to run and test and not a lot of dependencies are involved
 
 ###### Tech Stack
 * Python3
@@ -36,8 +38,6 @@ I used this setup so the project is easy to run and test and not a lot of depend
 * CircleCI (CI/CT)
 
 ## Setting up the environment:
-In order to be able to run and test the project you will first need easy setup:
-
 ###### Python3
 It is used to run and test the API as well as to run the front end app.
 
@@ -52,10 +52,10 @@ It is used to execute the UI tests (WebDriverIO)
 * If not or you don't have brew installed follow this [NodeJs](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
 ## Setting up the project
-Once we have the environment ready we need to install the project dependecies:
-*Here I am assumming you cloned the repo already if not: `git clone https://github.com/pjcalvo/heracles`*
+Once we have the environment ready we need to install the project dependencies:
+*At this point I am assuming you already cloned the repo, if not run: `git clone https://github.com/pjcalvo/heracles`*
 
-**Python** recommendation is to use a virtual env when installing dependecies to avoid conflict with OS libraries
+**Python** recommendation is to use a virtual env when installing dependencies to avoid conflict with OS libraries
 `python3 -m venv venv` create the virtual env
 `. venv/bin/activate` source to the virtual env, you will see (venv) in the terminal
 `pip install -r requirements.txt` install project dependencies
@@ -64,25 +64,25 @@ Once we have the environment ready we need to install the project dependecies:
 `npm install`
 
 **Selenium** will be the webdriver to connect to the browser and execute UI tests:
-* *Recommended*: Check this line `services: ['selenium-standalone'],` on the `wdio.conf.js` file. This will make selenium start for you seemlesly.
+* *Recommended*: Check this line `services: ['selenium-standalone'],` on the `wdio.conf.js` file. This will make selenium start for you seamlessly.
 * If you want you can start selenium on your own and download the corresponding browserDrivers or use a remote selenium grid,
 
 ## Running the project
 I decided to split the frontend and backend in two separate projects to have a more real life context of isolation between these two.
-This means that you will need to run them separately in order to work.
+This means that you will need to run them separately in order for them to work.
 
 ###### Backend
 The backend is located under *src/api*
 Open a new terminal
 In order to spin the backend just run: `FLASK_APP=src/api/app.py flask run`
-Check the (app)[http://localhost:5000]
+Check the [app](http://localhost:5000)
 
 ###### WebAPP
 The frontend is located under *src/web*
 Open another new terminal 
 In order to spin the frontend just run: `FLASK_RUN_PORT=5001 FLASK_APP=src/api/app.py flask run`
 In this case we need to indicate a different port for the server to avoid conflict with the backend
-Check the (app)[http://localhost:5001]
+Check the [app](http://localhost:5001)
 
 
 ## Running tests
@@ -115,9 +115,9 @@ To run the acceptance tests we need a working api, so:
 
 ###### E2E Tests | Acceptance Tests | UI Tests
 You can call these guys *e2e tests*, *acceptance tests*, *ui tests* or whatever seems right on the context, they are the last level of testing that I added, like the cherry on the cake.
-I feel like this guys should belong either to the front end project or in an isolate project. In this case because there is a strong dependecy between front and backedn to be able to test the overall flow I decided to write them on a different technology and keep the project separate, so I added the tests under *src/e2e/
+I feel like this guys should belong either to the front end project or in an isolated project. In this case because there is a strong dependency between front and backend to be able to test the overall flow I decided to write them on a different technology and keep the project separate, so I added the tests under *src/e2e/
 
-In this case I decided to use [WebdriverIO](https://webdriver.io/) because it is a very updated framework with tons of support for plugins and services that just make e2e testing very simple. For example it provides a nice standalone service that runs selenium in case it is not running. 
+In this case I decided to use [WebdriverIO](https://webdriver.io/) because it is a very updated framework with tons of support for plugins and services that just make e2e testing very simple. For example, it provides a nice standalone service that runs selenium in case it is not running. 
 
 To run the acceptance tests we need a working api and a working frontend, so:
 * In a terminal: Move to the virtual env: `. venv/bin/activate` then spin up the backend `FLASK_APP=src/api/app.py flask run`
@@ -132,12 +132,12 @@ For the CI pipeline I decided to use [CircleCI](https://circleci.com/) which is 
 
 Check the configuration on *.circleci/config.yml* Also this is the current running pipeline [pjcalvo/heracles](https://circleci.com/gh/pjcalvo/heracles/)
 
-The pipeline is structered to:
+The pipeline is structured to:
 
 * First spin up the building environment
 * Then checkout the code
 * Configure the environment (setup Python, setup NodeJS, setup Selenium)
-* Run the Unit Tests first (if it brokes at this level I don't want to proceed)
+* Run the Unit Tests first (if it breaks at this level I don't want to proceed)
 * Spin the apps
 * Run the integration tests
 * Run the UI tests
@@ -148,26 +148,26 @@ Also, this runs over every commit that is done to *Master*. In a better process 
 
 ## Notes on what I didn't do? What I would do different? What would I like to include if I had more time!?
 **What I didn't do?**
-I didn't consider to add any *performance or load testing*. I consider load testing as a driven context effort and in this case the context of having a single page hiting a single endpoint with no real customes is not worth the effort. Performance testing is meant to find software, infraesructure, network and db bottlenecks, but this app is not even deployed so performance testing will make not a lot on sense.
+I didn't consider to add any *performance or load testing*. I consider load testing as a driven context effort and in this case the context of having a single page hitting a single endpoint with no real customers is not worth the effort. Performance testing is meant to find software, infraestructure, network and db bottlenecks, but this app is not even deployed so performance testing will not make a lot of sense.
 
 I didn't add visual UI verification because the application is just a button; but if we wanted it we could have done that using Applitools or other JS image processing library to record baselines and compare against new tests.
 
-I didin't add any automated security testing, same as performance testing there is a big effort that needs to be invested here but no security at all on the site so i didn't think it was worth it.
+I didn't add any automated security testing, same as performance testing there is a big effort that needs to be invested here but no security at all on the site so I didn't think it was worth it.
 
 **What I would do different?**
-I think the number #1 thing to improve here is to have isolation between projects, which means each project should be able to be tested independently managing its own dependecies on the pipeline, and not relying on the backedn to also be spinned (in the case of the front end). This will bring a more testable and deployable environment. Each project should have it's own pipeline that builds it, test in and deploy it. And then add an extra layer of coverage for the full system integration tests once it is deployed to a testable environment.
+I think the number #1 thing to improve here is to have isolation between projects, which means each project should be able to be tested independently managing its own dependencies on the pipeline, and not relying on the backend to also be spinned (in the case of the front end). This will bring a more testable and deployable environment. Each project should have it's own pipeline that builds it, test in and deploy it. And then add an extra layer of coverage for the full system integration tests once it is deployed to a testable environment.
 
 Also, I only have a single branch which is a bad practice, in a more collaborative environment it would be nice to follow a Pull Request approach, where every PR builds and run tests and provide instant feedback before merging to master.
 
-Also, I used flask for the frontend, but I think using a javscript framework for the front end makes more sense, this will also bring unit and component tests for the frontend layer and not just rely on the UI tests.
+Also, I used flask for the frontend, but I think using a javaScript framework for the front end makes more sense, this will also bring unit and component tests for the frontend layer and not just rely on the UI tests.
 
 **What would I like to include if I had more time!?**
-* More coverage for negative tests on the front end. What happens if the backend is not reachable? What happends if it is too slow?
-* Better reporting and logging tools for the tests, right now it is mostly console reports, but this does not provide an easy way to debug or trobleshoot in case of errors. Including attached screenshots and logs to the execution.
+* More coverage for negative tests on the front end. What happens if the backend is not reachable? What happens if it is too slow?
+* Better reporting and logging tools for the tests, right now it is mostly console reports, but this does not provide an easy way to debug or troubleshoot in case of errors. Including attached screenshots and logs to the execution.
 * The e2e tests include a very repetitive process of enter value, submit and check result, this can be summarized on a *flows* library.
 
 
 NOTES:
 * Pytest-html failed to work on a different machine (don't want to invest more time with this at the moment)
 
-Happy reviewwing! 🚀
+Happy reviewing! 🚀
