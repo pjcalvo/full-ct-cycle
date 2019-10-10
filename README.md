@@ -161,6 +161,7 @@ Also, I used flask for the frontend, but I think using a javscript framework for
 **What would I like to include if I had more time!?**
 * More coverage for negative tests on the front end. What happens if the backend is not reachable? What happends if it is too slow?
 * Better reporting and logging tools for the tests, right now it is mostly console reports, but this does not provide an easy way to debug or trobleshoot in case of errors. Including attached screenshots and logs to the execution.
+* The e2e tests include a very repetitive process of enter value, submit and check result, this can be summarized on a *flows* library.
 
 
 Happy reviewwing! 🚀
