@@ -13,18 +13,18 @@ def before_all(context):
 
 
 def before_feature(context, feature):
-    context.logger.info("Execution the before feature '{feature}' section")
+    context.logger.info(f"Execution the before feature '{feature}' section")
 
 def after_scenario(context, scenario):
     print("\n")
     context.logger.info("******************************************************************************")
-    context.logger.info("* Test case '{scenario.name}' ---------------> '{scenario.status}'")
+    context.logger.info(f"* Test case '{scenario.name}' ---------------> '{scenario.status}'")
     context.logger.info("******************************************************************************\n\n\n\n")
 
 def setup_custom_logger(name):
     formatter = logging.Formatter(fmt='%(asctime)s %(levelname)-8s %(message)s',
                                   datefmt='%Y-%m-%d %H:%M:%S')
-    handler = logging.FileHandler('log.txt', mode='w')
+    handler = logging.FileHandler('logging.log', mode='w')
     handler.setFormatter(formatter)
     screen_handler = logging.StreamHandler(stream=sys.stdout)
     screen_handler.setFormatter(formatter)
