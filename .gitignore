@@ -1,7 +1,13 @@
 # ignore python stuff 
 env/
+venv/
 /**/__pycache__
+
+# ignore reports
 pytest-report/
+
+# ignore selenium
+selenium/
 
 # ignore IDE dumb files
 .vscode

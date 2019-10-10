@@ -4,12 +4,6 @@
 
 [![CircleCI](https://circleci.com/gh/pjcalvo/heracles/tree/master.svg?style=svg)](https://circleci.com/gh/pjcalvo/heracles/tree/master)
 
-This is what i did:
-* First I added a backend small project using Python Flask.
-* I added CI support with CircleCI in order to run the tests
-* I added some unit tests for the "core" functionality which actually make find a problem with negatives
-* I will fix the code ... 
-
 ## The challenge: Money Formatting
 
 Given an amount of money as a number, format it as a string. Add associated tests for the functionality and for the user interface. 
@@ -19,34 +13,64 @@ formatMoney(2310000.159897); // '2 310 000.16'
 formatMoney(1600); // '1 600.00'
 ```
 
-This needs to be a "fully working application" (you choose the format: web, cli, backend-frontend, mobile app, ...)
+## This is what i did:
+* First I added a backend small project using Python Flask.
+* I added CI support with CircleCI in order to run the tests
+* I added some unit tests for the "core" functionality which actually make find a problem with negatives
+*
 
-*eg: A simple HTML page with an input box*
+## Setting up the environment:
+In order to be able to run and test the project you will first need easy setup:
 
-## Our evaluation criteria:
+### Python3
+It is used to run and test the API as well as to run the front end app.
 
-- How did your structure your code? (*eg: is it structured in a testable way?*)
-- What did you test? (*eg: functionality, performance, etc.*) at which level? (*eg: unit, integration, UI, etc.*)
-- Which testing technique did you use? why?
-- We also care a little about the functionality itself
+* If you are in a mac simple: `brew install python3`
+* If not or you don't have brew installed follow this (Python3)[https://www.python.org/downloads/]
 
-## What we won't really care: 
+### NodeJs
+It is used to execute the UI tests (WebDriverIO)
 
-- If your UI looking great, 0 line of CSS is quite enough CSS
-- You use the latest JS framework of the day
-- The programming language
+* If you are in a mac simple: `brew install nodeJs`
+* If you are in a mac simple: `brew install npm`
+* If not or you don't have brew installed follow this (NodeJs)[https://docs.npmjs.com/downloading-and-installing-node-js-and-npm]
 
-## What would be awesome:
+## Setting up the project
+Once we have the environment ready we need to install the project dependecies:
+*Here I am assumming you cloned the repo already if not: `git clone https://github.com/pjcalvo/heracles`
 
-- You use some nice testing techniques, fuzz testing, mutation testing, ... (even if they don't make sense here they'll probably do in your day to day job)
-- You handle some stuff to test that we are not even aware of 
-  - *eg: You handle funky unicode strings (eg: [big list of naughty strings](https://github.com/minimaxir/big-list-of-naughty-strings))*
-- You show us how you run your tests in CI/CD
-  
-## Instructions:
+Python recommends you to use a virtual env when installing dependecies to avoid conflict with OS libraries
+`python3 -m venv venv` create the virtual env
+`. venv/bin/activate` source to the virtual env, you will see (venv) in the terminal
+`pip install -r requirements.txt` install project dependencies
 
-Fork this repo with your solution. We want to see your progression through commits (don’t commit the entire solution in 1 step) and don't forget to create a `README.md` to explain your thought process and also provide instructions on how to run the tests.
+NodeJs doesn't need a virtual env because the libraries are installed inside the node_modules project
+`npm install`
 
-Please let us know how long the challenge takes you. We're not looking for how speedy or lengthy you are. It's just really to give us a clearer idea of what you've produced in the time you decided to take. Feel free to go as big or as small as you want.
+Selenium will be the webdriver to connect to the browser and execute UI tests:
+* (Recommended) Uncomment this line `// services: ['selenium-standalone'],` on the `wdio.conf.js` file which will make selenium start for you seemlesly.
+* If you want to download and spin selenium on your own do `sh selenium.sh`. It is a small script that downloads and spins selenium.
 
-Happy testing! 🚀
+## Spinning up the webapp and api:
+I decided to split the frontend and backend in two separate projects to have a more real life context of isolation between these two.
+This means that you will need to run them separately in order to work.
+
+### Backend
+The backend is located under src/api
+Open a new terminal
+In order to spin the backend just run: `FLASK_APP=src/api/app.py flask run`
+Check the (app)[http://localhost:5000]
+
+### WebAPP
+The frontend is located under src/web
+Open another new terminal 
+In order to spin the frontend just run: `FLASK_RUN_PORT=5001 FLASK_APP=src/api/app.py flask run`
+In this case we need to indicate a different port for the server to avoid conflict with the backend
+Check the (app)[http://localhost:5001]
+
+
+## Running tests
+This solution contains 3 levels of testing:
+### Unit testing
+
+Happy reviewwing! 🚀
