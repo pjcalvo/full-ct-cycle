@@ -1,4 +1,6 @@
 #!/bin/bash
-ls venv/
+python3 -m venv venv
 . venv/bin/activate
+pip install -r requirements.txt
+
 pytest --html=pytest-report/report.html

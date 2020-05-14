@@ -1,4 +1,6 @@
 #!/bin/bash
+python3 -m venv venv
+. venv/bin/activate
 pip install -r requirements.txt
 
 FLASK_APP = src/web/app.py
@@ -8,6 +10,6 @@ cd app
 source venv/bin/activate
 flask run
 
-sleep 1
+sleep 3
 
 behave src/api/features/
