@@ -4,7 +4,7 @@ python3 -m venv venv
 pip install -r requirements.txt
 
 FLASK_APP = src/web/app.py
-FLASK_RUN_PORT = 5001
+FLASK_RUN_PORT = 5000
 
 cd app
 source venv/bin/activate
