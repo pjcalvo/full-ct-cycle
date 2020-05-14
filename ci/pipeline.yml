@@ -35,6 +35,7 @@ jobs:
             type: docker-image
             source: {repository: python}
           inputs:
+            - name: app
             - name: app/venv
           run:
             path: app/ci/scripts/unit-tests.sh
