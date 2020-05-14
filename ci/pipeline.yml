@@ -25,7 +25,7 @@ jobs:
             - name: app
 
           run:
-            path: ci/scripts/setup.sh
+            path: app/ci/scripts/setup.sh
       
       - task: unit-test
         config:
@@ -37,6 +37,7 @@ jobs:
 
           inputs:
             - name: app
+              path: /
 
           run:
-            path: ci/scripts/unit-tests.sh
+            path: app/ci/scripts/unit-tests.sh
