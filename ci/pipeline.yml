@@ -32,6 +32,8 @@ jobs:
             source: {repository: python}
           inputs:
             - name: app
+          outputs:
+            - name: venv
           run:
             dir: app
             path: ci/scripts/unit-tests.sh
@@ -43,6 +45,8 @@ jobs:
             source: {repository: python}
           inputs:
             - name: app
+            - name: venv
+              path: app/venv
           run:
             dir: app
             path: ci/scripts/integration-tests.sh

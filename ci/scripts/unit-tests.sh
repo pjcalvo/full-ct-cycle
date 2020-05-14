@@ -1,4 +1,4 @@
 #!/bin/bash
-ls venv
+ls venv/
 . venv/bin/activate
 pytest --html=pytest-report/report.html
