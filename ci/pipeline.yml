@@ -1,10 +1,13 @@
 ---
+platform: linux
+
 resources:
   - name: app
     type: git
     source:
       uri: https://github.com/pjcalvo/full-ct-cycle.git
       branch: master
+
 
 jobs:
   - name: build-and-test
@@ -15,43 +18,38 @@ jobs:
         trigger: true
       - task: setup
         config:
+          inputs:
+            - name: app
           platform: linux
           image_resource:
             type: docker-image
             source: {repository: python}
-          inputs:
-            - name: app
           run:
             path: app/ci/scripts/setup.sh   
+          outputs: 
+            - name: app/venv
       - task: unit-test
         config:
           platform: linux
-
           image_resource:
             type: docker-image
             source: {repository: python}
           inputs:
-            - name: app
+            - name: app/venv
           run:
             path: app/ci/scripts/unit-tests.sh
-      - task: build-app
-        config:
-          platform: linux
-          image_resource:
-            type: docker-image
-            source: {repository: python}
-          inputs:
-            - name: app
-          run:
-            path: app/ci/scripts/build.sh
+      # - task: build-app
+      #   config:
+      #     platform: linux
+      #     inputs:
+      #       - name: code
+      #     run:
+      #       path: app/ci/scripts/build.sh
 
-      - task: integration-tests
-        config:
-          platform: linux
-          image_resource:
-            type: docker-image
-            source: {repository: python}
-          inputs:
-            - name: app
-          run:
-            path: app/ci/scripts/integration-tests.sh
+      # - task: integration-tests
+      #   config:
+      #     platform: linux
+      #     inputs:
+      #       - name: code
+      #     run:
+      #       path: app/ci/scripts/integration-tests.sh
