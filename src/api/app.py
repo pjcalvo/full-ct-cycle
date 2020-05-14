@@ -1,3 +1,6 @@
+
+#!/usr/bin/env python3
+
 from flask import Flask, request, abort
 from flask_restful import Resource, Api
 from core import money
