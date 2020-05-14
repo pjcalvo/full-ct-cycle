@@ -1,6 +1,6 @@
 ---
 resources:
-  - name: full-ct-cycle
+  - name: app
     type: git
     source:
       uri: https://github.com/pjcalvo/full-ct-cycle.git
@@ -11,7 +11,8 @@ jobs:
     public: true
     serial: true
     plan:
-      - get: full-ct-cycle
+      - get: app
+        trigger: true
       - task: setup
         config:
           platform: linux
@@ -21,7 +22,7 @@ jobs:
             source: {repository: python}
 
           inputs:
-            - name: full-ct-cycle
+            - name: app
 
           run:
             path: ci/scripts/setup.sh
@@ -35,10 +36,7 @@ jobs:
             source: {repository: python}
 
           inputs:
-            - name: full-ct-cycle
+            - name: app
 
           run:
             path: ci/scripts/unit-tests.sh
-
-
-  
