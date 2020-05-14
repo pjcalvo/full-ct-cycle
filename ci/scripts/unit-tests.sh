@@ -1,5 +1,4 @@
 #!/bin/bash
-cd app
-source venv/bin/activate
-pip freeze
+ls venv
+. venv/bin/activate
 pytest --html=pytest-report/report.html
