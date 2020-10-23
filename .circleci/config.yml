@@ -130,8 +130,11 @@ workflows:
       - e2e_testing:
           requires:
             - build_test
+      - hold:
+          type: approval
+          requires:
+           - e2e_testing
+           - api_testing
       - deploy:
           requires:
-              - e2e_testing
-              - api_testing
               - hold
