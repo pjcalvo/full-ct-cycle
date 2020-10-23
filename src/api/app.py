@@ -24,7 +24,7 @@ class MoneyApi(Resource):
 
 class Main(Resource):
     def get(self):
-        return {'status': 'site is up and running'},201
+        return {'status': 'backend site is up and running'},201
 
 api.add_resource(MoneyApi, '/money')
 api.add_resource(Main, '/')
