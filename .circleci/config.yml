@@ -2,8 +2,6 @@
 version: 2
 jobs:
   api_testing:
-    requires:
-      - build_test
     docker:
       - image: circleci/python:3.6.3-jessie-node-browsers
         environment:
@@ -34,14 +32,13 @@ jobs:
       - store_test_results:
           path: pytest-report/     
 
-  e2e_testing:
-      requires:
-        - build_test
+  e2e_testing:     
       docker:
         - image: circleci/python:3.6.3-jessie-node-browsers
           environment:
             FLASK_CONFIG: testing
       steps: 
+        - checkout
         - run:
             name: "Prepare Node Env for UI tests"
             command: |
@@ -58,7 +55,6 @@ jobs:
             command: |
               java -jar selenium-server-standalone-3.5.3.jar
             background: true
-        - checkout
         - run:
             name: Install Python deps in a venv
             command: |
@@ -87,7 +83,6 @@ jobs:
         - run:
             name: Run Acceptance UI Testse
             command: npm run test
-
   build_test:
     working_directory: ~/heracles
     docker:
@@ -111,12 +106,11 @@ jobs:
       - store_artifacts:
           path: pytest-report/
           destination: tr1
+
   deploy:
     filters:
       branches:
         ignore: main
-    requires:
-      - hold
     docker:
       - image: alpine
     working_directory: ~/heracles
@@ -127,9 +121,17 @@ jobs:
 # work definition
 workflows:
   version: 2
-  build_and_test:
+  build_test_and_deploy:
     jobs:
       - build_test
-      - api_testing
-      - e2e_testing
-      - deploy
+      - api_testing:
+          requires:
+            - build_test
+      - e2e_testing:
+          requires:
+            - build_test
+      - deploy:
+          requires:
+              - e2e_testing
+              - api_testing
+              - hold
