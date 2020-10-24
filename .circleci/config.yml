@@ -1,10 +1,11 @@
+# job definitions
 version: 2
-
 jobs:
-  # for unit test
-  build_test:
+  api_testing:
     docker:
       - image: circleci/python:3.6.3-jessie-node-browsers
+        environment:
+          FLASK_CONFIG: testing
     steps:
       - checkout
       - run:
@@ -14,29 +15,10 @@ jobs:
             . venv/bin/activate
             pip install -r requirements.txt
       - run:
-          name: Run Unit Tests
-          command: |
-            . venv/bin/activate
-            pytest --html=pytest-report/report.html
-      - store_artifacts:
-          path: pytest-report/
-          destination: tr1
-  api_testing:
-    docker:
-      - image: circleci/python:3.6.3-jessie-node-browsers
-    steps:
-      - checkout
-      - run:
-          name: Install Python deps in a venv
-          command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install -r requirements.txt 
-      - run:
           name: Spin up api application
           command: |
             . venv/bin/activate
-            make app
+            flask run
           background: true
           environment:
             FLASK_APP: src/api/app.py
@@ -47,60 +29,112 @@ jobs:
           command: |
             . venv/bin/activate
             behave src/api/features/
-  ui_testing:
+      - store_test_results:
+          path: pytest-report/     
+
+  e2e_testing:     
+      docker:
+        - image: circleci/python:3.6.3-jessie-node-browsers
+          environment:
+            FLASK_CONFIG: testing
+      steps: 
+        - checkout
+        - run:
+            name: "Prepare Node Env for UI tests"
+            command: |
+              curl -sSL "https://nodejs.org/dist/v11.10.0/node-v11.10.0-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v11.10.0-linux-x64/bin/node
+              curl https://www.npmjs.com/install.sh | sudo bash
+              npm i --save-dev @wdio/cli
+              npm install
+        - run:
+            name: Download Selenium
+            command: |
+              curl -O http://selenium-release.storage.googleapis.com/3.5/selenium-server-standalone-3.5.3.jar
+        - run:
+            name: Start Selenium
+            command: |
+              java -jar selenium-server-standalone-3.5.3.jar
+            background: true
+        - run:
+            name: Install Python deps in a venv
+            command: |
+              python3 -m venv venv
+              . venv/bin/activate
+              pip install -r requirements.txt
+        - run:
+            name: Spin up api application
+            command: |
+              . venv/bin/activate
+              flask run
+            background: true
+            environment:
+              FLASK_APP: src/api/app.py
+              FLASK_RUN_PORT: 5000
+        - run: 
+            name: Spin up web application
+            command: |
+              . venv/bin/activate
+              flask run
+            background: true
+            environment:
+              FLASK_APP: src/web/app.py
+              FLASK_RUN_PORT: 5001
+        - run: sleep 3
+        - run:
+            name: Run Acceptance UI Testse
+            command: npm run test
+  build_test:
+    working_directory: ~/heracles
     docker:
       - image: circleci/python:3.6.3-jessie-node-browsers
+        environment:
+          FLASK_CONFIG: testing
     steps:
       - checkout
-      - run:
-          name: prepare environment
-          command: |
-            curl -sSL "https://nodejs.org/dist/v11.10.0/node-v11.10.0-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v11.10.0-linux-x64/bin/node
-            npm i --save-dev @wdio/cli
-            npm install
-      - run:
-            name: Download Selenium And execute it
-            command: |
-              curl -O http://selenium-release.storage.googleapis.com/3.5/selenium-server-standalone-3.5.3.jar && java -jar selenium-server-standalone-3.5.3.jar
-            background: true
       - run:
           name: Install Python deps in a venv
           command: |
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
+      
       - run:
-          name: Spin up api application
+          name: Run Unit Tests
           command: |
             . venv/bin/activate
-            make app
-          background: true
-          environment:
-            FLASK_APP: src/api/app.py
-            FLASK_RUN_PORT: 5000
-      - run: 
-            name: Spin up web application
-            command: |
-              . venv/bin/activate
-              make app-web
-            background: true
-            environment:
-              FLASK_APP: src/web/app.py
-              FLASK_RUN_PORT: 5001
-      - run: sleep 3
+            pytest --html=pytest-report/report.html
+      - store_artifacts:
+          path: pytest-report/
+          destination: tr1
+
+  deploy:
+    filters:
+      branches:
+        ignore: master
+    docker:
+      - image: alpine
+    working_directory: ~/heracles
+    steps:
       - run:
-          name: Run Acceptance UI Tests 
-          command: make test-e2e
+          echo 'Deployment Complete'
 
-
+# work definition
 workflows:
-    version: 2
-    continues_testing_workflow:
-      jobs:
-        - build_test
-        - api_testing:
-            requires:
-              - "build_test"
-        - ui_testing:
-            requires:
-                - "build_test"
+  version: 2
+  build_test_and_deploy:
+    jobs:
+      - build_test
+      - api_testing:
+          requires:
+            - build_test
+      - e2e_testing:
+          requires:
+            - build_test
+      - hold:
+          type: approval
+          requires:
+           - e2e_testing
+           - api_testing
+      - deploy:
+          requires:
+              - hold
