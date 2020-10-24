@@ -47,8 +47,40 @@ jobs:
           command: |
             . venv/bin/activate
             behave src/api/features/
-      - store_test_results:
-          path: pytest-report/
+  ui-testing:
+    docker:
+      - image: circleci/python:3.6.3-jessie-node-browsers
+    steps:
+      - checkout
+      - run:
+          name: Install Python deps in a venv
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+      - run:
+          name: Spin up api application
+          command: |
+            . venv/bin/activate
+            make app
+          background: true
+          environment:
+            FLASK_APP: src/api/app.py
+            FLASK_RUN_PORT: 5000
+      - run: 
+            name: Spin up web application
+            command: |
+              . venv/bin/activate
+              make app-web
+            background: true
+            environment:
+              FLASK_APP: src/web/app.py
+              FLASK_RUN_PORT: 5001
+      - run: sleep 3
+      - run:
+          name: Run Acceptance UI Testse
+          command: make test-e2e
+
 
 workflows:
     version: 2
@@ -58,3 +90,6 @@ workflows:
         - api_testing:
             requires:
               - "build_test"
+        - ui_testing:
+            requires:
+                - "build_test"
