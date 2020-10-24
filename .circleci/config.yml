@@ -47,7 +47,7 @@ jobs:
           command: |
             . venv/bin/activate
             behave src/api/features/
-  ui-testing:
+  ui_testing:
     docker:
       - image: circleci/python:3.6.3-jessie-node-browsers
     steps:
