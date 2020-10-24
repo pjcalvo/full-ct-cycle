@@ -144,12 +144,19 @@ workflows:
   build_test_and_deploy:
     jobs:
       - build_test
+      - api_testing:
+          requires:
+            - build_test
+      - e2e_testing:
+          requires:
+            - build_test
       - deploy_staging:
           requires:
-            - build_test
+            - e2e_testing
+            - api_testing
       - run_tests_on_staging:
           requires:
-            - build_test
+            - deploy_staging
       - hold:
           type: approval
           requires:
@@ -157,11 +164,6 @@ workflows:
       - deploy_to_prod:
           requires:
               - hold
-      
 
-# # - api_testing:
-#           requires:
-#             - build_test
-#       - e2e_testing:
-#           requires:
-#             - build_test
+
+
