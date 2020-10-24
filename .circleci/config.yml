@@ -1,0 +1,23 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: alpine
+    steps:
+      - run: echo ‘Step1 - Build’
+  test:
+    docker:
+      - image: alpine
+    steps:
+      - run: echo ‘Step2 - test
+
+workflows:
+    build:
+      jobs:
+        - build
+    build_and_test:
+      jobs:
+        - build
+        - test
+    
