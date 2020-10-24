@@ -110,7 +110,7 @@ jobs:
   deploy:
     filters:
       branches:
-        ignore: master
+        only: develop
     docker:
       - image: alpine
     working_directory: ~/heracles
