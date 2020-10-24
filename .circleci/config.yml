@@ -107,7 +107,7 @@ jobs:
           path: pytest-report/
           destination: tr1
 
-  deploy:
+  deploy_staging:
     filters:
       branches:
         only: develop
@@ -116,7 +116,27 @@ jobs:
     working_directory: ~/heracles
     steps:
       - run:
-          echo 'Deployment Complete'
+          echo 'Deployment To Stage Complete'
+  run_tests_on_staging:
+    filters:
+      branches:
+        only: develop
+    docker:
+      - image: alpine
+    working_directory: ~/heracles
+    steps:
+      - run:
+          echo 'Running E2E on staging'
+  deploy_to_prod:
+    filters:
+      branches:
+        only: develop
+    docker:
+      - image: alpine
+    working_directory: ~/heracles
+    steps:
+      - run:
+          echo 'Deployment to Prod Complete'
 
 # work definition
 workflows:
@@ -124,17 +144,24 @@ workflows:
   build_test_and_deploy:
     jobs:
       - build_test
-      - api_testing:
+      - deploy_staging:
           requires:
             - build_test
-      - e2e_testing:
+      - run_tests_on_staging:
           requires:
             - build_test
       - hold:
           type: approval
           requires:
-           - e2e_testing
-           - api_testing
-      - deploy:
+           - run_tests_on_staging
+      - deploy_to_prod:
           requires:
               - hold
+      
+
+# # - api_testing:
+#           requires:
+#             - build_test
+#       - e2e_testing:
+#           requires:
+#             - build_test
