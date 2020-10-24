@@ -53,6 +53,17 @@ jobs:
     steps:
       - checkout
       - run:
+          name: prepare environment
+          command: |
+            curl -sSL "https://nodejs.org/dist/v11.10.0/node-v11.10.0-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v11.10.0-linux-x64/bin/node
+            npm i --save-dev @wdio/cli
+            npm install
+      - run:
+            name: Download Selenium And execute it
+            command: |
+              curl -O http://selenium-release.storage.googleapis.com/3.5/selenium-server-standalone-3.5.3.jar && java -jar selenium-server-standalone-3.5.3.jar
+            background: true
+      - run:
           name: Install Python deps in a venv
           command: |
             python3 -m venv venv
@@ -78,7 +89,7 @@ jobs:
               FLASK_RUN_PORT: 5001
       - run: sleep 3
       - run:
-          name: Run Acceptance UI Testse
+          name: Run Acceptance UI Tests 
           command: make test-e2e
 
 
