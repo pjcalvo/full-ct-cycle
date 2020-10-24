@@ -13,6 +13,7 @@ jobs:
       - run: echo ‘Step2 - test
 
 workflows:
+    version: 2
     build:
       jobs:
         - build
